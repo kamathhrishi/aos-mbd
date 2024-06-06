@@ -106,6 +106,44 @@ RUN chmod +x /usr/local/bin/emcc-lua
 ENV CC 'emcc -s WASM=1'
 ENV NM 'llvm-nm'
 
+COPY ./src/ort.c /opt/ort.c
+COPY ./src/Makefile /opt/Makefile
+COPY ./src/model.onnx /opt/model.onnx
+
+########################
+# BUILD ONNXRUNTIME WASM
+########################
+# https://onnxruntime.ai/docs/build/web.html#build-onnx-runtime-webassembly-artifacts
+# Download and install CMake 3.26
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4-linux-x86_64.sh && \
+    mkdir /opt/cmake && \
+    sh cmake-3.26.4-linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
+    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && \
+    rm cmake-3.26.4-linux-x86_64.sh
+
+# Clone the ONNX Runtime repository
+RUN git clone --recursive https://github.com/microsoft/onnxruntime /onnxruntime
+# Set the working directory
+WORKDIR /onnxruntime
+
+# Install Python dependencies
+RUN pip3 install -r requirements.txt.in
+
+# Build ONNX Runtime WebAssembly artifacts
+RUN /bin/bash -c "source /emsdk/emsdk_env.sh && \
+    ./build.sh --build_dir /onnxruntime/build --config Release --build_wasm --skip_tests --disable_wasm_exception_catching --disable_rtti --allow_running_as_root --parallel"
+
+# Copy the build artifacts to the desired location
+RUN mkdir -p /onnxruntime/wasm_artifacts && \
+    cp -r /onnxruntime/build/Release/* /onnxruntime/wasm_artifacts/
+
+# Set the working directory to the artifacts folder
+WORKDIR /onnxruntime/wasm_artifacts
+
+## Build lort
+RUN cd /opt && \
+  make emscripten
+
 ###########################################
 ### Publish, Bundler, Process, Contract ###
 ###########################################

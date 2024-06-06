@@ -1,55 +1,11 @@
-# AOS-SQLITE
+# [WIP] aos-mbd
 
-AOS-SQLite combines the ao operating system module and sqlite to create an ao custom module to add a lightweight but powerful indexer to your aos experience.
+**aos-mbd** combines the ao operating system module and ONNX Realtime Runtime to create an ao custom module that enables AI inference from any model exported as in the ONNX format to your aos experience. 
 
-> The bulk of this effort was done by @elliotsayes during the Hack the Weave competition, Elliot was able to create this WASM Binary that includes both SQLite, LUA, and aos, as an `ao` Module.
+Content Moderation & Personalization Models from [mbd](https://www.mbd.xyz) trained on Web3 Social data daily will be saved to Arweave and available for anyone to host them on AO to create their own algorithms. 
 
-AOS-SQLite Module - `GYrbbe0VbHim_7Hi6zrOpHQXrSQz07XNtwCnfbFo2I0`
+> The bulk of this effort was done by @samcamwilliams, @twilson63 on [aos-llama](https://github.com/samcamwilliams/aos-llama) & @elliotsayes during the Hack the Weave competition, Elliot was able to create this WASM Binary that includes both SQLite, LUA, and aos, as an `ao` Module.
 
-Run a SQLite Database with AOS(WASM64)
-
-```sh
-aos my-sqlite --module=sBmq5pehE1_Ed5YBs4DGV4FMftoKwo_cVVsCpPND36Q
-```
-
-Run a SQLite Database with AOS(WASM32)
-
-```sh
-AOS_MODULE=GYrbbe0VbHim_7Hi6zrOpHQXrSQz07XNtwCnfbFo2I0 aos my-sqlite
-```
-
-## Spawn via a process
-
-```lua
-Spawn('GYrbbe0VbHim_7Hi6zrOpHQXrSQz07XNtwCnfbFo2I0', {})
-```
-
-## Examples
-
-```lua
-local sqlite3 = require("lsqlite3")
- 
-db = sqlite3.open_memory()
-  
-db:exec[[
-  CREATE TABLE test (id INTEGER PRIMARY KEY, content);
-  INSERT INTO test VALUES (NULL, 'Hello Lua');
-  INSERT INTO test VALUES (NULL, 'Hello Sqlite3');
-  INSERT INTO test VALUES (NULL, 'Hello ao!!!');
-]]
-return "ok"
-
-```
-
-```lua
-local s = ""
- 
-for row in db:nrows("SELECT * FROM test") do
-  s = s .. row.id .. ": " .. row.content .. "\\n"
-end
- 
-return s
-```
 
 ## AO Resources
 

@@ -161,7 +161,7 @@ def main():
 
             with open('/opt/compile.c', mode='w') as build:
                 build.write(c_program)
-
+    
     # Finally, compile to wasm
     debug_print('Start to compile as WASM')
     cmd = ['emcc', '-O3']
@@ -187,6 +187,8 @@ def main():
     cmd.extend(['-I', quote('/lua-{}/src'.format(os.environ.get('LUA_VERSION')))])
     # cmd.extend(['-I', '/opt'])
     # cmd.extend(['/opt/lsqlite3.c', '/opt/sqlite3.c'])
+    # Append ort.c modules to linked libraries
+    cmd.extend(['/opt/ort.o'])
     cmd.extend(['/opt/compile.c', quote('/lua-{}/src/liblua.a'.format(os.environ.get('LUA_VERSION')))])
     cmd.extend(['/opt/lsqlite3.c', '/opt/sqlite3.c'])
 
