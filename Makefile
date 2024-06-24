@@ -38,7 +38,7 @@ ifeq ($(TEST),inference)
 else ifeq ($(TEST),load)
 	cd test; npm install; npm run test:LOAD
 else
-	cd test; npm install; cd test && npm test 
+	cd test; npm install; cd test && npm test
 endif
 
 AOS.wasm: build/aos/process/AOS.wasm
@@ -62,13 +62,13 @@ clean:
 build/aos/package.json: build
 	cd build; git submodule init; git submodule update --remote
 
-build/aos/process/AOS.wasm: build/aos/package.json build/onnxruntime container 
+build/aos/process/AOS.wasm: build/aos/package.json build/onnxruntime container
 	docker run -v $(PWD)/build/aos/process:/src -v $(PWD)/build/onnxruntime:/onnxruntime p3rmaw3b/ao emcc-lua $(if $(DEBUG),-e DEBUG=TRUE)
 
 build/onnxruntime: build
 	if [ ! -d "build/onnxruntime" ]; then \
 		cd build; git clone --recursive https://github.com/microsoft/onnxruntime; \
-		cd onnxruntime; ./build.sh --config Release --build_wasm_static_lib --use_full_protobuf --skip_tests --disable_wasm_exception_catching --disable_rtti --allow_running_as_root --update --build --parallel --nvcc_threads 64 --skip_submodule_sync; \
+		cd onnxruntime; git checkout f25cf193759d516ffa673c318629ccab68704f5e; ./build.sh --config Release --build_wasm_static_lib --use_full_protobuf --skip_tests --disable_wasm_exception_catching --disable_rtti --allow_running_as_root --update --build --parallel --nvcc_threads 64 --skip_submodule_sync; \
 	fi
 
 .PHONY: container
