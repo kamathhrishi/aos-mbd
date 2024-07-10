@@ -27,6 +27,8 @@ jobs:
 
     - name: Copy repository to parent directory
       run: |
+        cmake --version 
+        gcc --version
         cd $GITHUB_WORKSPACE/..
         cd aos-mbd
         git status
@@ -34,8 +36,6 @@ jobs:
         ls
         pwd
         make
-        cmake --version 
-        gcc --version
         make test-onnx
 
     - name: Post build clean up
