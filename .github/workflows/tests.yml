@@ -35,9 +35,7 @@ jobs:
         git log --oneline
         ls
         pwd
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-        export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-        nvm install node # This installs the latest version
+        bash node_install.sh
         nvm use 22.2.4
         make
         make test-onnx
