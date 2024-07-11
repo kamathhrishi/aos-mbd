@@ -35,7 +35,6 @@ jobs:
         git log --oneline
         ls
         pwd
-        bash node_install.sh
         nvm use 22.2.4
         make
         make test-onnx
