@@ -23,8 +23,13 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
+        sudo apt-get update && sudo apt-get upgrade
         sudo apt-get install -y build-essential make
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+        nvm install node
+        node --version
+        nvm install --lts
+        nvm install stable
 
     - name: Copy repository to parent directory
       run: |
