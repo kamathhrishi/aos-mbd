@@ -6,6 +6,7 @@ on:
       - gitactions
       - preworkingstate
       - working_w_cicd
+      - workingtests
   pull_request:
     branches:
       - gitactions
