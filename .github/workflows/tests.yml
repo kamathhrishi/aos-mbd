@@ -44,7 +44,29 @@ jobs:
         git log --oneline
         ls
         make
+        zip -r build/onnxruntime.zip build/onnxruntime
         make test-onnx
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/onnxruntime.zip
+        asset_name: onnxruntime.zip
+        asset_content_type: application/zip
 
     - name: Post build clean up
       run: |
