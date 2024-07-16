@@ -26,7 +26,11 @@ jobs:
         sudo apt-get update && sudo apt-get upgrade
         sudo apt-get install -y build-essential make
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-        export NVM_DIR="$HOME/.nvm"
+        echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
+        echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
+        # Apply the changes
+        source ~/.bashrc
         nvm install node
         node --version
         nvm install --lts
