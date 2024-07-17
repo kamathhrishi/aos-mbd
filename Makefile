@@ -71,11 +71,11 @@ build/onnxruntime: build
 		cd onnxruntime; git checkout f25cf193759d516ffa673c318629ccab68704f5e; \
 	fi; \
 	URL="https://github.com/kamathhrishi/aos-mbd/releases/download/1/onnxruntime.zip"; \
-	DESTINATION="build/onnxruntime/onnxruntime.zip"; \
-	wget -O "$$DESTINATION" "$$URL"; \
+	wget "$$URL"; \
 	if [ $$? -eq 0 ]; then \
+	    mv onnxruntime.zip build.zip; \
+	    unzip build.zip; \
 		echo "Download successful!"; \
-		unzip -o "$$DESTINATION" -d build/onnxruntime; \
 		pwd; \
 		ls; \
 	else \
@@ -94,3 +94,4 @@ publish-module: AOS.wasm
 dockersh:
 	# docker run -v $(PWD)/build/aos/process:/src -it p3rmaw3b/ao /bin/bash
 	docker run -v .:/src -it p3rmaw3b/ao /bin/bash
+
