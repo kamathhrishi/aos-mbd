@@ -48,7 +48,9 @@ jobs:
         git log --oneline
         ls
         make
-        zip -r build/onnxruntime/build.zip build/onnxruntime/build
+        cd build/onnxruntime
+        zip -r ../../build.zip build
+        cd ../..
         #nvm use 22.4
         #make test-onnx
 
