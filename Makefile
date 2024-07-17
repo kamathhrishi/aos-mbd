@@ -68,18 +68,18 @@ build/aos/process/AOS.wasm: build/aos/package.json build/onnxruntime container
 build/onnxruntime: build
 	if [ ! -d "build/onnxruntime" ]; then \
 		cd build; git clone --recursive https://github.com/microsoft/onnxruntime; \
-		cd onnxruntime; git checkout f25cf193759d516ffa673c318629ccab68704f5e;\
+		cd onnxruntime; git checkout f25cf193759d516ffa673c318629ccab68704f5e; \
 	fi; \
 	URL="https://github.com/kamathhrishi/aos-mbd/releases/download/1/onnxruntime.zip"; \
-	DESTINATION="build/onnxruntime/"; \
+	DESTINATION="build/onnxruntime/onnxruntime.zip"; \
 	wget -O "$$DESTINATION" "$$URL"; \
 	if [ $$? -eq 0 ]; then \
 		echo "Download successful!"; \
-                unzip -r onnxruntime.zip -d .;\
-                pwd ;\
+		unzip -o "$$DESTINATION" -d build/onnxruntime; \
+		pwd; \
 		ls; \
 	else \
-		./build.sh --config Release --build_wasm_static_lib --use_full_protobuf --skip_tests --disable_wasm_exception_catching --disable_rtti --allow_running_as_root --update --build --parallel --nvcc_threads 64 --skip_submodule_sync;
+		./build.sh --config Release --build_wasm_static_lib --use_full_protobuf --skip_tests --disable_wasm_exception_catching --disable_rtti --allow_running_as_root --update --build --parallel --nvcc_threads 64 --skip_submodule_sync; \
 	fi
 
 .PHONY: container
