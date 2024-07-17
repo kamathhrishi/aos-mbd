@@ -48,7 +48,7 @@ jobs:
         git log --oneline
         ls
         make
-        zip -r build/onnxruntime.zip build/onnxruntime
+        zip -r build/onnxruntime/build.zip build/onnxruntime/build.zip
         #nvm use 22.4
         #make test-onnx
 
@@ -69,7 +69,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/onnxruntime.zip
+        asset_path: build/onnxruntime/build.zip
         asset_name: onnxruntime.zip
         asset_content_type: application/zip
 
